@@ -1,7 +1,10 @@
 import json
+import pathlib
 from google.adk.agents import Agent
 from google.adk.apps import App
 from google.adk.tools import ToolContext
+from google.adk.skills import load_skill_from_dir
+from google.adk.tools import skill_toolset
 
 # =====================================================================
 # 🛠️ Define ADK Tools (Business Intelligence Engine)
@@ -140,10 +143,26 @@ async def simulate_stress_test(tool_context: ToolContext, scenario: str, user_re
     return json.dumps(result, indent=2)
 
 # =====================================================================
-# 👥 Define specialized ADK Boardroom Agents
+# 👥 Define specialized ADK Boardroom Agents & Skills
 # =====================================================================
 
 model_id = "gemini-2.5-flash"  # Standard model ID for Gemini API
+
+# Load ADK skills from directories
+current_dir = pathlib.Path(__file__).parent
+financial_skill = load_skill_from_dir(current_dir / "skills" / "financial_analysis")
+competitor_skill = load_skill_from_dir(current_dir / "skills" / "competitor_mapping")
+
+# Wrap tools and skills in SkillToolsets
+auditor_toolset = skill_toolset.SkillToolset(
+    skills=[financial_skill],
+    additional_tools=[calculate_financial_model]
+)
+
+advocate_toolset = skill_toolset.SkillToolset(
+    skills=[competitor_skill],
+    additional_tools=[search_competitors]
+)
 
 astra_vc = Agent(
     name="Astra_Moonshot_VC",
@@ -177,7 +196,7 @@ elena_auditor = Agent(
         "Use the calculate_financial_model tool to analyze pricing or cost proposals. "
         "Point out unsustainable unit economics and demand math-based answers."
     ),
-    tools=[calculate_financial_model]
+    tools=[auditor_toolset]
 )
 
 maya_advocate = Agent(
@@ -189,7 +208,7 @@ maya_advocate = Agent(
         "Focus on whether the startup solves a real, validated problem or is just a nice-to-have toy. "
         "Use the search_competitors tool to find potential competitors and challenge the user to prove customer pain."
     ),
-    tools=[search_competitors]
+    tools=[advocate_toolset]
 )
 
 # =====================================================================
