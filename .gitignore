@@ -1,0 +1,24 @@
+# Ignore environment variables (keeps API keys secure)
+.env
+.env.local
+
+# Ignore Python dependencies & cache files
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+venv/
+ENV/
+.adk/
+
+# Ignore Node dependencies & production builds
+node_modules/
+dist/
+/frontend/dist/
+.vite/
+npm-debug.log*
+
+# Ignore OS files
+.DS_Store
+Thumbs.db

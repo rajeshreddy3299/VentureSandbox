@@ -1,0 +1,13 @@
+{
+  "name": "venture-intelligence-mcp",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "mcp_server.js",
+  "scripts": {
+    "start": "node mcp_server.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.1",
+    "dotenv": "^16.4.5"
+  }
+}
