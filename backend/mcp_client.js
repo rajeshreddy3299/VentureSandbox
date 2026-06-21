@@ -14,22 +14,14 @@ export class VentureMcpClient {
   }
 
   async connect() {
-    console.log("Spawning custom MCP Server...");
+    console.log("Connecting to custom MCP Server...");
     
     const serverPath = path.join(__dirname, "..", "mcp-server", "mcp_server.js");
     
-    // Spawn the node process running our custom MCP server
-    this.process = spawn("node", [serverPath], {
+    const transport = new StdioClientTransport({
+      command: "node",
+      args: [serverPath],
       env: { ...process.env }
-    });
-
-    // Capture standard error for debugging
-    this.process.stderr.on("data", (data) => {
-      console.log(`[MCP Server Log] ${data.toString().trim()}`);
-    });
-
-    this.process.on("error", (err) => {
-      console.error("Failed to start MCP server subprocess:", err);
     });
 
     this.client = new Client(
@@ -41,11 +33,6 @@ export class VentureMcpClient {
         capabilities: {}
       }
     );
-
-    const transport = new StdioClientTransport({
-      input: this.process.stdout,
-      output: this.process.stdin
-    });
 
     await this.client.connect(transport);
     console.log("Connected to custom MCP Server via Stdio Transport!");
@@ -91,9 +78,9 @@ export class VentureMcpClient {
   }
 
   disconnect() {
-    if (this.process) {
-      this.process.kill();
-      console.log("MCP Server subprocess terminated.");
+    if (this.client) {
+      this.client.close();
+      console.log("MCP Client connection closed.");
     }
   }
 }
