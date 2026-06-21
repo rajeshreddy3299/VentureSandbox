@@ -23,10 +23,10 @@ This diagram outlines the flow of the browser-based dashboard client, the Expres
 
 ```mermaid
 graph TD
-    UI[Frontend: React/Vite Dashboard] -->|HTTP API / REST| BE[Backend: Express Coordinator]
+    UI["Frontend: React/Vite Dashboard"] -->|HTTP API / REST| BE["Backend: Express Coordinator"]
     BE -->|State Updates| UI
-    BE -->|Gemini Node API SDK| LLM[Google Gemini 2.5 Flash]
-    BE -->|MCP Stdio Connection| MCP[Custom MCP Server: VentureIntelligenceServer]
+    BE -->|Gemini Node API SDK| LLM["Google Gemini 2.5 Flash"]
+    BE -->|MCP Stdio Connection| MCP["Custom MCP Server: VentureIntelligenceServer"]
     MCP -->|Tool Responses| BE
 ```
 
@@ -35,11 +35,11 @@ This diagram outlines the native Google Agent Development Kit (ADK) structure, s
 
 ```mermaid
 graph TD
-    Playground[ADK Web Playground / adk web] -->|FastAPI SSE Stream| Coord[Boardroom_Coordinator Agent]
+    Playground["ADK Web Playground / adk web"] -->|FastAPI SSE Stream| Coord["Boardroom_Coordinator Agent"]
     Coord -->|User Input| Playground
-    Coord -->|Hierarchical Routing| Sub[Sub-Agents: Astra, Rex, Elena, Maya]
-    Elena -->|SkillToolset| Fin[financial_analysis Skill & Tool]
-    Maya -->|SkillToolset| Comp[competitor_mapping Skill & Tool]
+    Coord -->|Hierarchical Routing| Sub["Sub-Agents: Astra, Rex, Elena, Maya"]
+    Elena -->|SkillToolset| Fin["financial_analysis Skill & Tool"]
+    Maya -->|SkillToolset| Comp["competitor_mapping Skill & Tool"]
 ```
 
 * **Frontend Dashboard**: React SPA styled with glassmorphic CSS, running an interactive canvas and positioning maps.
