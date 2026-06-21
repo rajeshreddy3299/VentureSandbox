@@ -197,7 +197,48 @@ function generateMockResponse(agentId, prompt) {
     }
   }
 
-  // 3. Default Static Fallbacks
+  // 3. Dynamic Solution / UVP Fallback
+  const isSolutionUvp = lastMessage.includes("solution") || 
+                        lastMessage.includes("unique value") || 
+                        lastMessage.includes("proposition") || 
+                        lastMessage.includes("uvp") ||
+                        lastMessage.includes("value proposition");
+                        
+  if (isSolutionUvp) {
+    if (agentId === "customer_advocate") {
+      return {
+        message: "Your Solution and Unique Value Proposition (UVP) are highly focused on startup pain points. The privacy-first compliance guarantee makes it a must-have tool. I have updated the canvas blocks.",
+        canvasUpdates: [
+          { block: "Solution", text: "Automated repo semantic scans injecting fix PRs into developer workflows", status: "ok", flagReason: "" },
+          { block: "Value Proposition", text: "Self-hosted AI security scanning ensuring private code compliance", status: "ok", flagReason: "" }
+        ],
+        toolRequest: null
+      };
+    }
+    if (agentId === "moonshot_vc") {
+      return {
+        message: "Defining the UVP around self-hosted privacy is excellent. It creates a solid competitive moat against cloud platforms. The canvas is now fully defined.",
+        canvasUpdates: [],
+        toolRequest: null
+      };
+    }
+    if (agentId === "financial_auditor") {
+      return {
+        message: "Providing a clear, differentiated solution will justify our premium $99 compliance tier pricing. The business model viability is sound.",
+        canvasUpdates: [],
+        toolRequest: null
+      };
+    }
+    if (agentId === "bootstrapper") {
+      return {
+        message: "This focused MVP solves a real problem quickly. Keep the engineering scope narrow and launch the GitHub App as planned.",
+        canvasUpdates: [],
+        toolRequest: null
+      };
+    }
+  }
+
+  // 4. Default Static Fallbacks
   const fallbackMessages = {
     moonshot_vc: "This is a neat feature, but where is the billion-dollar scale? I need to see a proprietary data flywheel and a defensible moat that keeps competitors out.",
     bootstrapper: "Do not waste time building a heavy product or burning cash on paid ads. Focus on direct outreach, secure your first 10 paying customers manually, and stay profitable.",
