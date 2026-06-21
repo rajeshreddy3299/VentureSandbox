@@ -29,6 +29,7 @@ graph TD
     BE -->|MCP Stdio Connection| MCP["Custom MCP Server: VentureIntelligenceServer"]
     MCP -->|Tool Responses| BE
 ```
+![Dashboard Architecture](https://mermaid.ink/img/Z3JhcGggVEQKICAgIFVJWyJGcm9udGVuZDogUmVhY3QvVml0ZSBEYXNoYm9hcmQiXSAtLT58SFRUUCBBUEkgLyBSRVNUXCBCRVsiQmFja2VuZDogRXhwcmVzcyBDb29yZGluYXRvciJdCiAgICBCRSAtLT58U3RhdGUgVXBkYXRlc3wgVUkKICAgIEJFIC0tPnxHZW1pbmkgTm9kZSBBUEkgU0RLfCBMTE1bIkdvb2dsZSBHZW1pbmkgMi41IEZsYXNoIl0KICAgIEJFIC0tPnxNQ1AgU3RkaW8gQ29ubmVjdGlvbnwgTUNQWyJDdXN0b20gTUNQIFNlcnZlcjogVmVudHVyZUludGVsbGlnZW5jZVNlcnZlciJdCiAgICBNQ1AgLS0+fFRvb2wgUmVzcG9uc2VzfCBCRQ==)
 
 ### 2. Official ADK Multi-Agent Architecture
 This diagram outlines the native Google Agent Development Kit (ADK) structure, showing the parent coordinator routing conversations to sub-agents, and the dynamic loading of skills using the SkillToolset.
@@ -41,6 +42,7 @@ graph TD
     Elena -->|SkillToolset| Fin["financial_analysis Skill & Tool"]
     Maya -->|SkillToolset| Comp["competitor_mapping Skill & Tool"]
 ```
+![ADK Multi-Agent Architecture](https://mermaid.ink/img/Z3JhcGggVEQKICAgIFBsYXlncm91bmRbIkFESyBXZWIgUGxheWdyb3VuZCAvIGFkayB3ZWIiXSAtLT58RmFzdEFQSSBTU0UgU3RyZWFtfCBDb29yZFsiQm9hcmRyb29tX0Nvb3JkaW5hdG9yIEFnZW50Il0KICAgIENvb3JkIC0tPnxVc2VyIElucHV0fCBQbGF5Z3JvdW5kCiAgICBDb29yZCAtLT58SGllcmFyY2hpY2FsIFJvdXRpbmd8IFN1YlsiU3ViLUFnZW50czogQXN0cmEsIFJleCwgRWxlbmEsIE1heWEiXQogICAgRWxlbmEgLS0+fFNraWxsVG9vbHNldHwgRmluWyJmaW5hbmNpYWxfYW5hbHlzaXMgU2tpbGwgJiBUb29sIl0KICAgIE1heWEgLS0+fFNraWxsVG9vbHNldHwgQ29tcFsiY29tcGV0aXRvcl9tYXBwaW5nIFNraWxsICYgVG9vbCJd)
 
 * **Frontend Dashboard**: React SPA styled with glassmorphic CSS, running an interactive canvas and positioning maps.
 * **Backend Coordinator**: Express.js server managing local session state and handling API-key environment variable isolation.
