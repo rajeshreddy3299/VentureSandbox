@@ -18,6 +18,9 @@ This project was built for the **AI Agents: Intensive Vibe Coding Capstone Proje
 
 ## 🛠️ Architecture
 
+### 1. VentureSandbox Web Dashboard Architecture
+This diagram outlines the flow of the browser-based dashboard client, the Express backend coordinator, and the custom stdio Model Context Protocol (MCP) server.
+
 ```mermaid
 graph TD
     UI[Frontend: React/Vite Dashboard] <-->|HTTP API / REST| BE[Backend: Express Coordinator]
@@ -28,10 +31,21 @@ graph TD
     MCP -->|Tool: simulate_stress_test| BE
 ```
 
-* **Frontend**: Single Page Application built with React, Vite, and Lucide Icons, featuring a premium glassmorphic dark-mode interface.
-* **Backend**: Express.js server orchestrating agent turns, storing session state, and acting as the client for the custom MCP server.
-* **Custom MCP Server**: Implements the Model Context Protocol to expose core capabilities (competitor searches, financial metric calculations, and stress-test evaluation) directly to the AI agents.
-* **Secure Key Isolation**: API keys are isolated on the backend server and never exposed to the client, utilizing strict CORS policies and schema enforcement.
+### 2. Official ADK Multi-Agent Architecture
+This diagram outlines the native Google Agent Development Kit (ADK) structure, showing the parent coordinator routing conversations to sub-agents, and the dynamic loading of skills using the SkillToolset.
+
+```mermaid
+graph TD
+    Playground[ADK Web Playground / adk web] <-->|FastAPI SSE Stream| Coord[Boardroom_Coordinator Agent]
+    Coord <-->|Hierarchical Routing| Sub[Sub-Agents: Astra, Rex, Elena, Maya]
+    Elena -->|SkillToolset| Fin[financial_analysis Skill & Tool]
+    Maya -->|SkillToolset| Comp[competitor_mapping Skill & Tool]
+```
+
+* **Frontend Dashboard**: React SPA styled with glassmorphic CSS, running an interactive canvas and positioning maps.
+* **Backend Coordinator**: Express.js server managing local session state and handling API-key environment variable isolation.
+* **Custom MCP Server**: Node.js stdio service registering business intelligence tools.
+* **ADK Agent Team**: Unified Python package implementing the hierarchical coordination and SkillToolset structure recommended by the Google Agent Platform guidelines.
 
 ---
 
