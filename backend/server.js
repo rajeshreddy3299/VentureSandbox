@@ -6,11 +6,13 @@ import { fileURLToPath } from "url";
 import { VentureMcpClient } from "./mcp_client.js";
 import { AGENT_PERSONAS, buildAgentInstruction } from "./agents.js";
 
-// Load environment variables
-dotenv.config();
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Load environment variables relative to script directory to ensure key is found
+dotenv.config({ path: path.resolve(__dirname, "..", ".env") });
+dotenv.config({ path: path.resolve(__dirname, ".env") });
+dotenv.config();
 
 const app = express();
 app.use(express.json());
