@@ -151,8 +151,21 @@ async function callGeminiWithRetryAndCleanup(prompt, retries = 5, delay = 5000) 
                             errorMsg.includes("RESOURCE_EXHAUSTED");
                             
         if (isRateLimit) {
-          console.warn(`[Gemini Rate Limit] Attempt ${attempt + 1} failed for ${modelName}. Retrying in ${delay * (attempt + 1)}ms...`);
-          await new Promise(resolve => setTimeout(resolve, delay * (attempt + 1)));
+          let waitTime = delay * (attempt + 1);
+          
+          // Parse retry delay from error if present (e.g. "Please retry in 33.3s")
+          const match = errorMsg.match(/Please retry in (\d+\.?\d*)s/i);
+          if (match) {
+            const apiWaitSeconds = parseFloat(match[1]);
+            if (!isNaN(apiWaitSeconds)) {
+              waitTime = Math.ceil(apiWaitSeconds * 1000) + 2000;
+              console.warn(`[Gemini Rate Limit] API requested wait of ${apiWaitSeconds}s. Waiting ${waitTime}ms...`);
+            }
+          } else {
+            console.warn(`[Gemini Rate Limit] Attempt ${attempt + 1} failed for ${modelName}. Retrying in ${waitTime}ms...`);
+          }
+          
+          await new Promise(resolve => setTimeout(resolve, waitTime));
           continue;
         }
         
