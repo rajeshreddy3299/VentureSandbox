@@ -1,5 +1,5 @@
 ---
-name: financial_analysis
+name: financial-analysis
 description: Skill to calculate and evaluate startup unit economics, LTV to CAC ratios, payback periods, and cash runway.
 ---
 

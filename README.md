@@ -39,10 +39,10 @@ graph TD
     Playground["ADK Web Playground / adk web"] -->|FastAPI SSE Stream| Coord["Boardroom_Coordinator Agent"]
     Coord -->|User Input| Playground
     Coord -->|Hierarchical Routing| Sub["Sub-Agents: Astra, Rex, Elena, Maya"]
-    Elena -->|SkillToolset| Fin["financial_analysis Skill & Tool"]
-    Maya -->|SkillToolset| Comp["competitor_mapping Skill & Tool"]
+    Elena -->|SkillToolset| Fin["financial-analysis Skill & Tool"]
+    Maya -->|SkillToolset| Comp["competitor-mapping Skill & Tool"]
 ```
-![ADK Multi-Agent Architecture](https://mermaid.ink/img/Z3JhcGggVEQKICAgIFBsYXlncm91bmRbIkFESyBXZWIgUGxheWdyb3VuZCAvIGFkayB3ZWIiXSAtLT58RmFzdEFQSSBTU0UgU3RyZWFtfCBDb29yZFsiQm9hcmRyb29tX0Nvb3JkaW5hdG9yIEFnZW50Il0KICAgIENvb3JkIC0tPnxVc2VyIElucHV0fCBQbGF5Z3JvdW5kCiAgICBDb29yZCAtLT58SGllcmFyY2hpY2FsIFJvdXRpbmd8IFN1YlsiU3ViLUFnZW50czogQXN0cmEsIFJleCwgRWxlbmEsIE1heWEiXQogICAgRWxlbmEgLS0+fFNraWxsVG9vbHNldHwgRmluWyJmaW5hbmNpYWxfYW5hbHlzaXMgU2tpbGwgJiBUb29sIl0KICAgIE1heWEgLS0+fFNraWxsVG9vbHNldHwgQ29tcFsiY29tcGV0aXRvcl9tYXBwaW5nIFNraWxsICYgVG9vbCJd)
+![ADK Multi-Agent Architecture](https://mermaid.ink/img/Z3JhcGggVEQKICAgIFBsYXlncm91bmRbIkFESyBXZWIgUGxheWdyb3VuZCAvIGFkayB3ZWIiXSAtLT58RmFzdEFQSSBTU0UgU3RyZWFtfCBDb29yZFsiQm9hcmRyb29tX0Nvb3JkaW5hdG9yIEFnZW50Il0KICAgIENvb3JkIC0tPnxVc2VyIElucHV0fCBQbGF5Z3JvdW5kCiAgICBDb29yZCAtLT58SGllcmFyY2hpY2FsIFJvdXRpbmd8IFN1YlsiU3ViLUFnZW50czogQXN0cmEsIFJleCwgRWxlbmEsIE1heWEiXQogICAgRWxlbmEgLS0+fFNraWxsVG9vbHNldHwgRmluWyJmaW5hbmNpYWwtYW5hbHlzaXMgU2tpbGwgJiBUb29sIl0KICAgIE1heWEgLS0+fFNraWxsVG9vbHNldHwgQ29tcFsiY29tcGV0aXRvci1tYXBwaW5nIFNraWxsICYgVG9vbCJd)
 
 * **Frontend Dashboard**: React SPA styled with glassmorphic CSS, running an interactive canvas and positioning maps.
 * **Backend Coordinator**: Express.js server managing local session state and handling API-key environment variable isolation.

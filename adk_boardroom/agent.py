@@ -1,10 +1,29 @@
 import json
+import os
 import pathlib
 from google.adk.agents import Agent
 from google.adk.apps import App
 from google.adk.tools import ToolContext
 from google.adk.skills import load_skill_from_dir
 from google.adk.tools import skill_toolset
+
+# Automatically load environment variables from .env file if present
+current_dir = pathlib.Path(__file__).parent
+project_root = current_dir.parent
+for env_path in [project_root / ".env", project_root / "backend" / ".env", current_dir / ".env"]:
+    if env_path.exists():
+        try:
+            with open(env_path, "r", encoding="utf-8") as f:
+                for line in f:
+                    line = line.strip()
+                    if line and not line.startswith("#") and "=" in line:
+                        k, v = line.split("=", 1)
+                        k = k.strip()
+                        if k not in os.environ:
+                            os.environ[k] = v.strip().strip('"').strip("'")
+        except Exception:
+            pass
+
 
 # =====================================================================
 # 🛠️ Define ADK Tools (Business Intelligence Engine)
@@ -149,9 +168,8 @@ async def simulate_stress_test(tool_context: ToolContext, scenario: str, user_re
 model_id = "gemini-2.5-flash"  # Standard model ID for Gemini API
 
 # Load ADK skills from directories
-current_dir = pathlib.Path(__file__).parent
-financial_skill = load_skill_from_dir(current_dir / "skills" / "financial_analysis")
-competitor_skill = load_skill_from_dir(current_dir / "skills" / "competitor_mapping")
+financial_skill = load_skill_from_dir(current_dir / "skills" / "financial-analysis")
+competitor_skill = load_skill_from_dir(current_dir / "skills" / "competitor-mapping")
 
 # Wrap tools and skills in SkillToolsets
 auditor_toolset = skill_toolset.SkillToolset(

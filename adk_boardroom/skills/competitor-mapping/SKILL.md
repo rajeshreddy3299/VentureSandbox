@@ -1,5 +1,5 @@
 ---
-name: competitor_mapping
+name: competitor-mapping
 description: Skill to search public databases and map competitors on a 2D feature-pricing positioning matrix.
 ---
 
