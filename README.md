@@ -23,12 +23,11 @@ This diagram outlines the flow of the browser-based dashboard client, the Expres
 
 ```mermaid
 graph TD
-    UI[Frontend: React/Vite Dashboard] <-->|HTTP API / REST| BE[Backend: Express Coordinator]
-    BE <-->|Gemini Node API SDK| LLM[Google Gemini 2.5 Flash]
-    BE <-->|MCP Stdio Connection| MCP[Custom MCP Server: VentureIntelligenceServer]
-    MCP -->|Tool: search_competitors| BE
-    MCP -->|Tool: calculate_financial_model| BE
-    MCP -->|Tool: simulate_stress_test| BE
+    UI[Frontend: React/Vite Dashboard] -->|HTTP API / REST| BE[Backend: Express Coordinator]
+    BE -->|State Updates| UI
+    BE -->|Gemini Node API SDK| LLM[Google Gemini 2.5 Flash]
+    BE -->|MCP Stdio Connection| MCP[Custom MCP Server: VentureIntelligenceServer]
+    MCP -->|Tool Responses| BE
 ```
 
 ### 2. Official ADK Multi-Agent Architecture
@@ -36,8 +35,9 @@ This diagram outlines the native Google Agent Development Kit (ADK) structure, s
 
 ```mermaid
 graph TD
-    Playground[ADK Web Playground / adk web] <-->|FastAPI SSE Stream| Coord[Boardroom_Coordinator Agent]
-    Coord <-->|Hierarchical Routing| Sub[Sub-Agents: Astra, Rex, Elena, Maya]
+    Playground[ADK Web Playground / adk web] -->|FastAPI SSE Stream| Coord[Boardroom_Coordinator Agent]
+    Coord -->|User Input| Playground
+    Coord -->|Hierarchical Routing| Sub[Sub-Agents: Astra, Rex, Elena, Maya]
     Elena -->|SkillToolset| Fin[financial_analysis Skill & Tool]
     Maya -->|SkillToolset| Comp[competitor_mapping Skill & Tool]
 ```
