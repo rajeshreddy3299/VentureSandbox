@@ -114,9 +114,9 @@ function generateMockResponse(agentId, prompt) {
 }
 
 // Robust helper to call Gemini with exponential backoff and model fallbacks
-async function callGeminiWithRetryAndCleanup(prompt, retries = 3, delay = 1000) {
+async function callGeminiWithRetryAndCleanup(prompt, retries = 5, delay = 1000) {
   const errors = [];
-  const modelsToTry = ["gemini-2.5-flash", "gemini-1.5-flash"];
+  const modelsToTry = ["gemini-2.5-flash"];
 
   for (const modelName of modelsToTry) {
     for (let attempt = 0; attempt < retries; attempt++) {
