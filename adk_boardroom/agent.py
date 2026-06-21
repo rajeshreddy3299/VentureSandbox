@@ -214,7 +214,7 @@ elena_auditor = Agent(
         "Use the calculate_financial_model tool to analyze pricing or cost proposals. "
         "Point out unsustainable unit economics and demand math-based answers."
     ),
-    tools=[auditor_toolset]
+    tools=[calculate_financial_model, auditor_toolset]
 )
 
 maya_advocate = Agent(
@@ -226,7 +226,7 @@ maya_advocate = Agent(
         "Focus on whether the startup solves a real, validated problem or is just a nice-to-have toy. "
         "Use the search_competitors tool to find potential competitors and challenge the user to prove customer pain."
     ),
-    tools=[advocate_toolset]
+    tools=[search_competitors, advocate_toolset]
 )
 
 # =====================================================================
