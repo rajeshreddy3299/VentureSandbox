@@ -133,6 +133,22 @@ function generateMockResponse(agentId, prompt) {
         toolRequest: null
       };
     }
+
+    if (agentId === "customer_advocate") {
+      return {
+        message: "A $50 average price point is very reasonable for FinTech teams. If we solve their audit bottlenecks, they won't hesitate to pay.",
+        canvasUpdates: [],
+        toolRequest: null
+      };
+    }
+
+    if (agentId === "moonshot_vc") {
+      return {
+        message: "A high LTV:CAC means we can reinvest cash flow to scale rapidly. The economic engine here is extremely attractive.",
+        canvasUpdates: [],
+        toolRequest: null
+      };
+    }
   }
 
   // 2. Dynamic Stress Test Fallback
@@ -157,6 +173,20 @@ function generateMockResponse(agentId, prompt) {
     if (agentId === "moonshot_vc") {
       return {
         message: "This compliance niche is highly defensible. Google won't build custom self-hosted security auditing software for startups. The moat holds, and the business model remains viable!",
+        canvasUpdates: [],
+        toolRequest: null
+      };
+    }
+    if (agentId === "financial_auditor") {
+      return {
+        message: "A self-hosted deployment will increase our customer support overhead slightly, but it justifies a much higher contract value. The financial margins remain strong against Google's free scanner.",
+        canvasUpdates: [],
+        toolRequest: null
+      };
+    }
+    if (agentId === "bootstrapper") {
+      return {
+        message: "Agreed. Google targets the mass market. By focusing on highly secure self-hosted compliance, we can remain lean and bootstrapped without needing to spend millions competing on feature marketing.",
         canvasUpdates: [],
         toolRequest: null
       };
