@@ -114,7 +114,7 @@ function generateMockResponse(agentId, prompt) {
 }
 
 // Robust helper to call Gemini with exponential backoff and model fallbacks
-async function callGeminiWithRetryAndCleanup(prompt, retries = 5, delay = 5000) {
+async function callGeminiWithRetryAndCleanup(prompt, retries = 2, delay = 1000) {
   const errors = [];
   const modelsToTry = ["gemini-2.5-flash"];
 
@@ -151,21 +151,12 @@ async function callGeminiWithRetryAndCleanup(prompt, retries = 5, delay = 5000) 
                             errorMsg.includes("RESOURCE_EXHAUSTED");
                             
         if (isRateLimit) {
-          let waitTime = delay * (attempt + 1);
-          
-          // Parse retry delay from error if present (e.g. "Please retry in 33.3s")
-          const match = errorMsg.match(/Please retry in (\d+\.?\d*)s/i);
-          if (match) {
-            const apiWaitSeconds = parseFloat(match[1]);
-            if (!isNaN(apiWaitSeconds)) {
-              waitTime = Math.ceil(apiWaitSeconds * 1000) + 2000;
-              console.warn(`[Gemini Rate Limit] API requested wait of ${apiWaitSeconds}s. Waiting ${waitTime}ms...`);
-            }
-          } else {
-            console.warn(`[Gemini Rate Limit] Attempt ${attempt + 1} failed for ${modelName}. Retrying in ${waitTime}ms...`);
+          if (attempt >= 1) {
+            // Throw immediately if the second attempt fails so we fall back to mock response instantly
+            throw error;
           }
-          
-          await new Promise(resolve => setTimeout(resolve, waitTime));
+          console.warn(`[Gemini Rate Limit] Attempt ${attempt + 1} failed. Retrying once in 500ms...`);
+          await new Promise(resolve => setTimeout(resolve, 500));
           continue;
         }
         
