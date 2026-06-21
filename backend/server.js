@@ -92,14 +92,18 @@ function resetSession(name, desc) {
 // Fallback mock responses when API key is missing or rate-limited
 function generateMockResponse(agentId, prompt) {
   const persona = AGENT_PERSONAS[agentId.toUpperCase()];
-  const lowercasePrompt = prompt.toLowerCase();
+  
+  // Look at the user's actual last chat message instead of the accumulated prompt history
+  const lastMessage = sessionState.chatHistory.length > 0 
+    ? sessionState.chatHistory[sessionState.chatHistory.length - 1].message.toLowerCase() 
+    : "";
   
   // 1. Dynamic Financial Pitch Fallback
-  const isFinancialPitch = lowercasePrompt.includes("calculate_financial_model") || 
-                           lowercasePrompt.includes("pricing") || 
-                           lowercasePrompt.includes("economics") ||
-                           lowercasePrompt.includes("$50") ||
-                           lowercasePrompt.includes("$99");
+  const isFinancialPitch = lastMessage.includes("calculate_financial_model") || 
+                           lastMessage.includes("pricing") || 
+                           lastMessage.includes("economics") ||
+                           lastMessage.includes("$50") ||
+                           lastMessage.includes("$99");
                            
   if (isFinancialPitch) {
     if (agentId === "financial_auditor") {
@@ -152,12 +156,12 @@ function generateMockResponse(agentId, prompt) {
   }
 
   // 2. Dynamic Stress Test Fallback
-  const isStressTest = lowercasePrompt.includes("stress-test") || 
-                       lowercasePrompt.includes("stress test") || 
-                       lowercasePrompt.includes("scenario") ||
-                       lowercasePrompt.includes("threat") ||
-                       lowercasePrompt.includes("google") ||
-                       lowercasePrompt.includes("cac");
+  const isStressTest = lastMessage.includes("stress-test") || 
+                       lastMessage.includes("stress test") || 
+                       lastMessage.includes("scenario") ||
+                       lastMessage.includes("threat") ||
+                       lastMessage.includes("google") ||
+                       lastMessage.includes("cac");
                        
   if (isStressTest) {
     if (agentId === "customer_advocate") {
