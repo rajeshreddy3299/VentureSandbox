@@ -140,6 +140,8 @@ async function callGeminiWithRetryAndCleanup(prompt, retries = 5, delay = 1000) 
         return JSON.parse(cleanedText);
       } catch (error) {
         const errorMsg = error.message || error.toString();
+        // Save the error for diagnostics
+        errors.push(`${modelName}(Attempt ${attempt + 1}): ${errorMsg}`);
         
         // If it's a rate limit, quota exceeded, or resource exhausted error, wait and retry
         const isRateLimit = errorMsg.includes("429") || 
@@ -153,9 +155,6 @@ async function callGeminiWithRetryAndCleanup(prompt, retries = 5, delay = 1000) 
           await new Promise(resolve => setTimeout(resolve, delay * (attempt + 1)));
           continue;
         }
-        
-        // Save the error for diagnostics
-        errors.push(`${modelName}(Attempt ${attempt + 1}): ${errorMsg}`);
         
         // If it's a model error (e.g. model not found), switch model immediately
         if (errorMsg.includes("model") && (errorMsg.includes("not found") || errorMsg.includes("invalid"))) {
@@ -252,8 +251,9 @@ app.post("/api/initialize", async (req, res) => {
     }
   }
 
-  // First round of speeches: Customer Advocate kicks off, followed by Moonshot VC
+  // First round of speeches: Customer Advocate kicks off, followed by Moonshot VC (spaced to avoid rate limits)
   await runAgentTurn("customer_advocate");
+  await new Promise(resolve => setTimeout(resolve, 1500));
   await runAgentTurn("moonshot_vc");
 
   res.json(sessionState);
@@ -276,7 +276,7 @@ app.post("/api/chat", async (req, res) => {
     timestamp: new Date().toLocaleTimeString()
   });
 
-  // Decide which agents speak next. Usually the Auditor and Bootstrapper.
+  // Decide which agents speak next. Usually the Auditor and Bootstrapper (spaced to avoid rate limits).
   const turn1 = await runAgentTurn("financial_auditor");
   
   // If Auditor requests financial model calculation, simulate it
@@ -291,6 +291,7 @@ app.post("/api/chat", async (req, res) => {
     }
   }
 
+  await new Promise(resolve => setTimeout(resolve, 1500));
   await runAgentTurn("bootstrapper");
 
   res.json(sessionState);
@@ -341,8 +342,9 @@ app.post("/api/stress-test", async (req, res) => {
     }
   }
 
-  // Run all agents to debate the outcome
+  // Run all agents to debate the outcome (spaced to avoid rate limits)
   await runAgentTurn("customer_advocate");
+  await new Promise(resolve => setTimeout(resolve, 1500));
   await runAgentTurn("moonshot_vc");
 
   res.json(sessionState);
